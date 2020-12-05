@@ -61,10 +61,6 @@ echo "3.7.7/envs/ldbc_datagen_tools" > .python-version
 pip install -U pip -r tools/requirements.txt
 ```
 
-
-
-
-
 ### Running locally
 
 Download and extract Spark 2.4.x:
@@ -74,9 +70,9 @@ curl https://downloads.apache.org/spark/spark-2.4.7/spark-2.4.7-bin-hadoop2.7.tg
 export SPARK_HOME="/opt/spark-2.4.7-bin-hadoop2.7"
 export PATH="$SPARK_HOME/bin":"$PATH"
 ```
-
+The run the script with:
 ```bash
-tools/run.sh
+tools/run.py <jar_file> <param_file>
 ```
 
 ### Docker image
