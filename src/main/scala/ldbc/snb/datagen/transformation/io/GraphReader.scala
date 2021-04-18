@@ -12,7 +12,7 @@ import java.net.URI
 
 trait GraphReader[M <: Mode] {
   type Data
-  def read(graphDef: GraphDef[M], path: String, options: ReaderFormatOptions): Graph[M, Data]
+  def read(graphDef: GraphDef[M], path: String, format: String, options: ReaderFormatOptions): Graph[M, Data]
   def exists(graphDef: GraphDef[M], path: String): Boolean
 }
 
@@ -51,12 +51,11 @@ private final class DataFrameGraphReader[M <: Mode](implicit spark: SparkSession
     with Logging {
   type Data = DataFrame
 
-  override def read(definition: GraphDef[M], path: String, options: ReaderFormatOptions): Graph[M, DataFrame] = {
+  override def read(definition: GraphDef[M], path: String, format: String, options: ReaderFormatOptions): Graph[M, DataFrame] = {
     val entities = for { (entity, schema) <- definition.entities } yield {
-      log.info(s"Reading $entity")
       val df = Reader(options)
         .pipeFoldLeft(schema)(_.schema(_))
-        .load((path / options.format / PathComponent[GraphLike[M]].path(definition) / entity.entityPath).toString())
+        .load((path / format / PathComponent[GraphLike[M]].path(definition) / entity.entityPath).toString())
       entity -> ev(df)
     }
     Graph[M, DataFrame](definition.isAttrExploded, definition.isEdgesExploded, definition.mode, entities)

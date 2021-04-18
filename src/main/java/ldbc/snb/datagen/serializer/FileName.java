@@ -15,6 +15,8 @@ public enum FileName {
     // dynamic activity
     FORUM("Forum", 5.13),
     FORUM_HASMEMBER_PERSON("Forum_hasMember_Person", 384.06),
+    FORUM_HASMODERATOR_PERSON("Forum_hasModerator_Person", 100.06),
+    FORUM_CONTAINEROF_POST("Forum_containerOf_Post", 10.06),
     FORUM_HASTAG_TAG("Forum_hasTag_Tag", 11.10),
     PERSON_LIKES_POST("Person_likes_Post", 141.12),
     PERSON_LIKES_COMMENT("Person_likes_Comment", 325.31),
@@ -22,6 +24,8 @@ public enum FileName {
     POST_HASTAG_TAG("Post_hasTag_Tag", 77.34),
     COMMENT("Comment", 503.70),
     COMMENT_HASTAG_TAG("Comment_hasTag_Tag", 295.20),
+    COMMENT_REPLYOF_POST("Comment_replyOf_Post", 205.20),
+    COMMENT_REPLYOF_COMMENT("Comment_replyOf_Comment", 155.20),
 
     // dynamic person
     PERSON("Person", 1.0),
@@ -29,7 +33,14 @@ public enum FileName {
     PERSON_WORKAT_COMPANY("Person_workAt_Company", 0.77),
     PERSON_STUDYAT_UNIVERSITY("Person_studyAt_University", 0.28),
     PERSON_KNOWS_PERSON("Person_knows_Person", 26.11),
+    PERSON_SPEAKS_LANGUAGE("Person_speaks_language", 1.0),
+    PERSON_ISLOCATEDIN_CITY("Person_isLocatedIn_City", 1.0),
+    PERSON_EMAIL_EMAILADDRESS("Person_email_emailaddress", 1.0),
 
+    // single file for each
+    SOCIAL_NETWORK_STATIC("social_network_static", 1.0),
+    SOCIAL_NETWORK_ACTIVITY("social_network_activity", 1.0),
+    SOCIAL_NETWORK_PERSON("social_network_person", 1.0),
     ;
 
     public final String name;

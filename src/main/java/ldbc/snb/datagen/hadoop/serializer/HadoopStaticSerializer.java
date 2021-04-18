@@ -42,6 +42,11 @@ import ldbc.snb.datagen.entities.statictype.TagClass;
 import ldbc.snb.datagen.entities.statictype.place.Place;
 import ldbc.snb.datagen.entities.statictype.tag.Tag;
 import ldbc.snb.datagen.serializer.StaticSerializer;
+import ldbc.snb.datagen.serializer.csv.CsvStaticSerializer;
+import ldbc.snb.datagen.serializer.yarspg.staticserializer.YarsPgCanonicalSchemalessStaticSerializer;
+import ldbc.snb.datagen.serializer.yarspg.staticserializer.YarsPgCanonicalStaticSerializer;
+import ldbc.snb.datagen.serializer.yarspg.staticserializer.YarsPgSchemalessStaticSerializer;
+import ldbc.snb.datagen.serializer.yarspg.staticserializer.YarsPgStaticSerializer;
 import ldbc.snb.datagen.util.GeneratorConfiguration;
 import ldbc.snb.datagen.util.StringUtils;
 import org.apache.hadoop.conf.Configuration;
@@ -74,7 +79,25 @@ public class HadoopStaticSerializer {
             FileSystem fs = FileSystem.get(hadoopConf);
             staticSerializer = new StaticSerializer[numPartitions];
             for (int i = 0; i < numPartitions; ++i) {
-                staticSerializer[i] = new StaticSerializer();
+                String format = conf.get("serializer.format");
+                switch ((format != null) ? format : "CsvBasic") {
+                    case "YarsPG":
+                        staticSerializer[i] = new YarsPgStaticSerializer();
+                        break;
+                    case "YarsPGSchemaless":
+                        staticSerializer[i] = new YarsPgSchemalessStaticSerializer();
+                        break;
+                    case "YarsPGCanonical":
+                        staticSerializer[i] = new YarsPgCanonicalStaticSerializer();
+                        break;
+                    case "YarsPGCanonicalSchemaless":
+                        staticSerializer[i] = new YarsPgCanonicalSchemalessStaticSerializer();
+                        break;
+                    case "CsvBasic":
+                    default:
+                        staticSerializer[i] = new CsvStaticSerializer();
+                }
+
                 staticSerializer[i].initialize(
                         fs, conf.getOutputDir(), i, 1.0,
                         false
@@ -158,5 +181,4 @@ public class HadoopStaticSerializer {
             exportTagHierarchy(tag);
         }
     }
-
 }

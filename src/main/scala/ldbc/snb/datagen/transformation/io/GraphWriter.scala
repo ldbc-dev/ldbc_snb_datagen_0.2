@@ -69,7 +69,7 @@ object Writer {
 
   def apply[T](dfw: DataFrameWriter[T], writerOptions: WriterFormatOptions) = {
     dfw
-      .format(writerOptions.format)
+      .format("csv")
       .options(writerOptions.formatOptions)
   }
 }

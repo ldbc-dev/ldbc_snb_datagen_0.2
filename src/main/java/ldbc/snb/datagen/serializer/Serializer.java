@@ -1,7 +1,6 @@
 package ldbc.snb.datagen.serializer;
 
 import ldbc.snb.datagen.hadoop.writer.HdfsWriter;
-import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 
 import java.io.IOException;

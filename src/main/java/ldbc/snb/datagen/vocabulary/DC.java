@@ -33,26 +33,37 @@
  You should have received a copy of the GNU General Public License
  along with this program; if not, write to the Free Software
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.*/
-package ldbc.snb.datagen.serializer;
+package ldbc.snb.datagen.vocabulary;
 
-import ldbc.snb.datagen.entities.statictype.Organisation;
-import ldbc.snb.datagen.entities.statictype.TagClass;
-import ldbc.snb.datagen.entities.statictype.place.Place;
-import ldbc.snb.datagen.entities.statictype.tag.Tag;
-import ldbc.snb.datagen.hadoop.writer.HdfsWriter;
+/**
+ * Dublin core project namespace used in the serialization process.
+ */
+public class DC {
 
-public abstract class StaticSerializer<TWriter extends HdfsWriter> extends LdbcSerializer<TWriter> {
+    public static final String NAMESPACE = "http://purl.org/dc/terms/";
+    public static final String PREFIX = "dc:";
+    public static final String PREFIX_DECLARATION =  ":" + DC.PREFIX + fullprefixed("") ;
 
-    public abstract void serialize(final Place place);
+    public static final String Name = PREFIX + "name";
 
-    public abstract void serialize(final Organisation organisation);
+    /**
+     * Gets the FOAF prefix version of the input.
+     */
+    public static String prefixed(String string) {
+        return PREFIX + string;
+    }
 
-    public abstract void serialize(final TagClass tagClass);
+    /**
+     * Gets the FOAF URL version of the input.
+     */
+    public static String getUrl(String string) {
+        return NAMESPACE + string;
+    }
 
-    public abstract void serialize(final Tag tag);
-
-    @Override
-    protected boolean isDynamic() {
-        return false;
+    /**
+     * Gets the FOAF RDF-URL version of the input.
+     */
+    public static String fullprefixed(String string) {
+        return "<" + NAMESPACE + string + ">";
     }
 }

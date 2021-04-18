@@ -4,6 +4,9 @@ import ldbc.snb.datagen.entities.dynamic.person.Person
 import ldbc.snb.datagen.generator.generators.{GenActivity, PersonActivityGenerator}
 import ldbc.snb.datagen.serializer.{DynamicActivitySerializer, PersonActivityExporter}
 import ldbc.snb.datagen.generation.generator.SparkRanker
+import ldbc.snb.datagen.serializer.csv.{CsvDynamicActivitySerializer, CsvDynamicPersonSerializer}
+import ldbc.snb.datagen.serializer.yarspg.dynamicserializer.activity.{YarsPgCanonicalDynamicActivitySerializer, YarsPgCanonicalSchemalessDynamicActivitySerializer, YarsPgDynamicActivitySerializer, YarsPgSchemalessDynamicActivitySerializer}
+import ldbc.snb.datagen.serializer.yarspg.dynamicserializer.person.{YarsPgCanonicalDynamicPersonSerializer, YarsPgDynamicPersonSerializer, YarsPgSchemalessDynamicPersonSerializer}
 import ldbc.snb.datagen.util.{GeneratorConfiguration, SerializableConfiguration}
 import ldbc.snb.datagen.syntax._
 import ldbc.snb.datagen.util.formatter.DateFormatter
@@ -39,7 +42,14 @@ object SparkActivitySerializer {
       val fs = FileSystem.get(hadoopConf)
       fs.mkdirs(new Path(buildDir))
 
-      val dynamicActivitySerializer = new DynamicActivitySerializer()
+      val dynamicActivitySerializer = conf.get("serializer.format") match {
+        case "CsvBasic" => new CsvDynamicActivitySerializer
+        case "YarsPG" => new YarsPgDynamicActivitySerializer
+        case "YarsPGSchemaless" => new YarsPgSchemalessDynamicActivitySerializer
+        case "YarsPGCanonical" => new YarsPgCanonicalDynamicActivitySerializer
+        case "YarsPGCanonicalSchemaless" => new YarsPgCanonicalSchemalessDynamicActivitySerializer
+        case _ => new CsvDynamicActivitySerializer
+      }
 
       dynamicActivitySerializer.initialize(fs, conf.getOutputDir, partitionId, oversizeFactor, false)
 

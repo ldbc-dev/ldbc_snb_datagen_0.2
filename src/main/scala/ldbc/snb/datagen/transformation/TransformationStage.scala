@@ -104,7 +104,7 @@ object TransformationStage extends SparkApp with Logging {
       CNil
 
     GraphReader[Mode.Raw.type, DataFrame]
-      .read(inputGraphDefinition, args.outputDir, new ReaderFormatOptions("csv", Mode.Raw))
+      .read(inputGraphDefinition, args.outputDir, args.format, new ReaderFormatOptions("csv", Mode.Raw))
       .pipeFoldLeft(args.explodeAttrs.fork)((graph, _: Unit) => ExplodeAttrs.transform(graph))
       .pipeFoldLeft(args.explodeEdges.fork)((graph, _: Unit) => ExplodeEdges.transform(graph))
       .pipe[OutputTypes] {
