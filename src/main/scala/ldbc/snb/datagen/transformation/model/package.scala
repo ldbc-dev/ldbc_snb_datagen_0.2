@@ -72,6 +72,11 @@ package object model {
     def modePath: String
   }
   object Mode {
+    final case object GenRaw extends Mode {
+      override type Layout[+Data] = Data
+      override def modePath: String = "gen_raw"
+    }
+
     final case object Raw extends Mode {
       type Layout[+Data] = Data
       override val modePath: String = "raw"

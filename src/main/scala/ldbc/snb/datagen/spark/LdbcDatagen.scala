@@ -110,9 +110,11 @@ object LdbcDatagen extends SparkApp {
 
     DatagenContext.initialize(generatorConfig)
 
-    GenerationStage.run(generatorConfig)
+    val genRawGraph = GenerationStage.run(generatorConfig)
 
     val transformArgs = TransformationStage.Args(
+      genRawGraph,
+      args.numThreads,
       outputDir = args.outputDir,
       explodeEdges = args.explodeEdges,
       explodeAttrs = args.explodeAttrs,

@@ -1,15 +1,19 @@
 package ldbc.snb.datagen.generation
 
 import ldbc.snb.datagen.{DatagenParams, SparkApp}
-import ldbc.snb.datagen.generation.generator.{SparkKnowsGenerator, SparkKnowsMerger, SparkPersonGenerator, SparkRanker}
-import ldbc.snb.datagen.generation.serializer.{SparkActivitySerializer, SparkPersonSerializer, SparkStaticGraphSerializer}
+import ldbc.snb.datagen.generation.generator.{SparkActivityGenerator, SparkKnowsGenerator, SparkKnowsMerger, SparkPersonGenerator, SparkRanker}
+import ldbc.snb.datagen.generation.serializer.SparkStaticGraphSerializer
 import ldbc.snb.datagen.syntax._
 import ldbc.snb.datagen.util.{ConfigParser, GeneratorConfiguration, Logging, SparkUI}
 import ldbc.snb.datagen.util.Utils.simpleNameOf
 import org.apache.hadoop.fs.{FileSystem, Path}
-import org.apache.spark.sql.SparkSession
-
+import org.apache.spark.sql.{DataFrame, Encoder, Encoders, SparkSession}
 import java.net.URI
+
+import ldbc.snb.datagen.transformation.model.EntityType.Node
+import ldbc.snb.datagen.transformation.model.{Graph, Mode}
+
+import scala.reflect.{ClassTag, classTag}
 
 object GenerationStage extends SparkApp with Logging {
   override def appName: String = "LDBC SNB Datagen for Spark: Generation Stage"
@@ -45,19 +49,31 @@ object GenerationStage extends SparkApp with Logging {
     val interestKnows = SparkKnowsGenerator(persons, interestRanker, config, percentages, 1, knowsGeneratorClassName)
     val randomKnows = SparkKnowsGenerator(persons, randomRanker, config, percentages, 2, knowsGeneratorClassName)
 
-    val merged = SparkKnowsMerger(uniKnows, interestKnows, randomKnows).cache()
+    val mergedPersons = SparkKnowsMerger(uniKnows, interestKnows, randomKnows).cache()
 
-    SparkUI.job(simpleNameOf[SparkActivitySerializer.type], "serialize person activities") {
-      SparkActivitySerializer(merged, randomRanker, config, Some(numPartitions), oversizeFactor)
+    val activities = SparkUI.job(simpleNameOf[SparkActivityGenerator.type], "generate person activities") {
+      SparkActivityGenerator(mergedPersons, randomRanker, config, Some(numPartitions))
     }
 
-    SparkUI.job(simpleNameOf[SparkPersonSerializer.type ], "serialize persons") {
-      SparkPersonSerializer(merged, config, Some(numPartitions), oversizeFactor)
-    }
+    import spark.implicits._
+
+    implicit def encoderForJBean[A: ClassTag] = Encoders.bean(classTag.runtimeClass).asInstanceOf[Encoder[A]]
+
+    val genRawGraph = Graph[Mode.GenRaw.type, DataFrame](
+      isAttrExploded = false,
+      isEdgesExploded = false,
+      Mode.GenRaw,
+      Map(
+        Node("Person") -> spark.createDataset(mergedPersons).toDF,
+        Node("Activity") -> spark.createDataset(activities).toDF
+      )
+    )
 
     SparkUI.job(simpleNameOf[SparkStaticGraphSerializer.type], "serialize static graph") {
       SparkStaticGraphSerializer(config, Some(numPartitions))
     }
+
+    genRawGraph
   }
 
   def openPropFileStream(uri: URI) = {

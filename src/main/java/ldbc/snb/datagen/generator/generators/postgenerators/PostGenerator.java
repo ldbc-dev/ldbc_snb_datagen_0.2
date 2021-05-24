@@ -38,7 +38,9 @@ package ldbc.snb.datagen.generator.generators.postgenerators;
 
 import ldbc.snb.datagen.DatagenParams;
 import ldbc.snb.datagen.dictionary.Dictionaries;
+import ldbc.snb.datagen.entities.Pair;
 import ldbc.snb.datagen.entities.dynamic.Forum;
+import ldbc.snb.datagen.entities.dynamic.PostTree;
 import ldbc.snb.datagen.entities.dynamic.messages.Comment;
 import ldbc.snb.datagen.entities.dynamic.messages.Post;
 import ldbc.snb.datagen.entities.dynamic.person.IP;
@@ -52,10 +54,9 @@ import ldbc.snb.datagen.util.PersonBehavior;
 import ldbc.snb.datagen.util.RandomGeneratorFarm;
 import ldbc.snb.datagen.util.Streams;
 import ldbc.snb.datagen.vocabulary.SN;
-import org.javatuples.Pair;
-import org.javatuples.Triplet;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
@@ -75,8 +76,8 @@ abstract public class PostGenerator {
         // Intentionally left empty
     }
 
-    public Stream<Triplet<Post, Stream<Like>, Stream<Pair<Comment, Stream<Like>>>>> createPosts(RandomGeneratorFarm randomFarm, final Forum forum, final List<ForumMembership> memberships,
-                                                                                          long numPostsInForum, Iterator<Long> idIterator, long blockId) {
+    public Stream<PostTree> createPosts(RandomGeneratorFarm randomFarm, final Forum forum, final List<ForumMembership> memberships,
+                                        long numPostsInForum, Iterator<Long> idIterator, long blockId) {
 
         Properties properties = new Properties();
         properties.setProperty("type", "post");
@@ -143,9 +144,9 @@ abstract public class PostGenerator {
                         : Stream.empty();
 
 
-                Stream<Pair<Comment, Stream<Like>>> commentStream = commentGenerator.createComments(randomFarm, forum, post, numComments, idIterator, blockId);
+                Stream<Pair<Comment, List<Like>>> commentStream = commentGenerator.createComments(randomFarm, forum, post, numComments, idIterator, blockId);
 
-                return Iterators.ForIterator.RETURN(new Triplet<>(post, likeStream, commentStream));
+                return Iterators.ForIterator.RETURN(new PostTree(post, likeStream.collect(Collectors.toList()), commentStream.collect(Collectors.toList())));
             }));
         });
     }
