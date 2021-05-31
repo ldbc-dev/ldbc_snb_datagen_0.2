@@ -56,3 +56,4 @@ PLATFORM_VERSION=2.12_spark3.1
 ./tools/emr/submit_datagen_job.py --bucket ${BUCKET_NAME} --platform-version ${PLATFORM_VERSION} --emr-release emr-6.3.0 ${JOB_NAME} ${SCALE_FACTOR} -- --format csv --mode raw
 ```
 
+The setup supports using [spot instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-spot-instances.html). This can be activated by passing the `--use_spot` argument to the scripts.
