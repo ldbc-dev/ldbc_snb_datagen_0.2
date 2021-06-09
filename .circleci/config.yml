@@ -1,0 +1,93 @@
+version: 2.1
+orbs:
+  slack: circleci/slack@3.4.2
+  gh-pages: sugarshin/gh-pages@0.0.6
+workflows:
+  version: 2
+  build:
+    jobs:
+      - test:
+          filters:
+            branches:
+              ignore:
+                - sigmod2014contest
+                - gh-pages
+      - deploy:
+          requires:
+            - test
+          filters:
+            branches:
+              only: main
+
+executors:
+  my-executor:
+    machine:
+      image: ubuntu-2004:202008-01
+    working_directory: ~/ldbc/ldbc_snb_datagen
+
+jobs:
+  test:
+    resource_class: xlarge
+    executor: my-executor
+    steps:
+      - checkout
+      - run: |
+          mkdir out/
+          DEBIAN_FRONTEND=noninteractive
+          sudo apt update
+          sudo apt install -y openjdk-8-jdk zip
+          sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/java-8-openjdk-amd64/bin/java 1
+          sudo update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/bin/java
+          java -version
+      - run: docker build . -t ldbc/spark
+      - restore_cache:
+          keys:
+            - m2-dep-branch:{{ .Branch }}-pom:{{ checksum "pom.xml" }}-
+            - m2-dep-branch:dev-pom:{{ checksum "pom.xml" }}-
+            - m2-dep-branch:{{ .Branch }}-
+            - m2-dep-branch:dev-
+      - run: mvn -ntp clean test-compile assembly:assembly
+      - save_cache:
+          key: m2-dep-branch:{{ .Branch }}-pom:{{ checksum "pom.xml" }}-{{ epoch }}
+          paths:
+            - ~/.m2/repository   # maven deps
+      - run: mkdir social-network-sf0.003
+      # - run: tools/docker-run.sh --mode interactive --scale-factor 0.003 --explode-edges --explode-attrs && mv out social-network-sf0.003-singular-projected-fk
+      # - run: tools/docker-run.sh --mode interactive --scale-factor 0.003                 --explode-attrs && mv out social-network-sf0.003-singular-merged-fk
+      # - run: tools/docker-run.sh --mode interactive --scale-factor 0.003 --explode-edges                 && mv out social-network-sf0.003-composite-projected-fk
+      # - run: tools/docker-run.sh --mode interactive --scale-factor 0.003                                 && mv out social-network-sf0.003-composite-merged-fk
+      - run: tools/docker-run.sh --mode bi --scale-factor 0.003 --explode-edges --explode-attrs --format-options header=false && mv out social-network-sf0.003-bi-singular-projected-fk
+      - run: tools/docker-run.sh --mode bi --scale-factor 0.003                 --explode-attrs --format-options header=false && mv out social-network-sf0.003-bi-singular-merged-fk
+      - run: tools/docker-run.sh --mode bi --scale-factor 0.003 --explode-edges                 --format-options header=false && mv out social-network-sf0.003-bi-composite-projected-fk
+      - run: tools/docker-run.sh --mode bi --scale-factor 0.003                                 --format-options header=false && mv out social-network-sf0.003-bi-composite-merged-fk
+      # - run: tools/docker-run.sh --mode interactive --scale-factor 0.003 --explode-edges --explode-attrs --format-options header=false && mv out social-network-sf0.003-singular-projected-fk-no-header
+      # - run: tools/docker-run.sh --mode interactive --scale-factor 0.003                 --explode-attrs --format-options header=false && mv out social-network-sf0.003-singular-merged-fk-no-header
+      # - run: tools/docker-run.sh --mode interactive --scale-factor 0.003 --explode-edges                 --format-options header=false && mv out social-network-sf0.003-composite-projected-fk-no-header
+      # - run: tools/docker-run.sh --mode interactive --scale-factor 0.003                                 --format-options header=false && mv out social-network-sf0.003-composite-merged-fk-no-header
+      - run: tools/docker-run.sh --mode bi --scale-factor 0.003 --explode-edges --explode-attrs --format-options header=false && mv out social-network-sf0.003-bi-singular-projected-fk-no-header
+      - run: tools/docker-run.sh --mode bi --scale-factor 0.003                 --explode-attrs --format-options header=false && mv out social-network-sf0.003-bi-singular-merged-fk-no-header
+      - run: tools/docker-run.sh --mode bi --scale-factor 0.003 --explode-edges                 --format-options header=false && mv out social-network-sf0.003-bi-composite-projected-fk-no-header
+      - run: tools/docker-run.sh --mode bi --scale-factor 0.003                                 --format-options header=false && mv out social-network-sf0.003-bi-composite-merged-fk-no-header
+      - run: |
+          # deploy CircleCI configuration to provide the 'filters' instructions (and prevent failed builds on the gh-pages branch)
+          mv .circleci dist/
+          for d in social-network-sf0.003*; do
+            echo "Generated with <https://github.com/ldbc/ldbc_snb_datagen_spark/commit/${CIRCLE_SHA1}>" > $d/README.md
+            zip -r dist/$d.zip $d/
+          done
+      - persist_to_workspace:
+          # Must be an absolute path, or relative path from working_directory. This is a directory on the container which is
+          # taken to be the root directory of the workspace.
+          root: .
+          # Must be relative path from root
+          paths:
+            - dist/
+            - .git/
+      - slack/status
+  deploy:
+    executor: my-executor
+    steps:
+      - attach_workspace:
+          at: ~/ldbc/ldbc_snb_datagen
+      - gh-pages/deploy:
+          ssh-fingerprints: '60:8f:35:48:99:c0:ae:9f:71:6b:a9:66:19:21:95:7d'
