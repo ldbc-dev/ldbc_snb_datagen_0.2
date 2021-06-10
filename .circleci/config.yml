@@ -52,22 +52,12 @@ jobs:
           paths:
             - ~/.m2/repository   # maven deps
       - run: mkdir social-network-sf0.003
-      # - run: tools/docker-run.sh --mode interactive --scale-factor 0.003 --explode-edges --explode-attrs && mv out social-network-sf0.003-singular-projected-fk
-      # - run: tools/docker-run.sh --mode interactive --scale-factor 0.003                 --explode-attrs && mv out social-network-sf0.003-singular-merged-fk
-      # - run: tools/docker-run.sh --mode interactive --scale-factor 0.003 --explode-edges                 && mv out social-network-sf0.003-composite-projected-fk
-      # - run: tools/docker-run.sh --mode interactive --scale-factor 0.003                                 && mv out social-network-sf0.003-composite-merged-fk
-      - run: tools/docker-run.sh --mode bi --scale-factor 0.003 --explode-edges --explode-attrs --format-options header=false && mv out social-network-sf0.003-bi-singular-projected-fk
-      - run: tools/docker-run.sh --mode bi --scale-factor 0.003                 --explode-attrs --format-options header=false && mv out social-network-sf0.003-bi-singular-merged-fk
-      - run: tools/docker-run.sh --mode bi --scale-factor 0.003 --explode-edges                 --format-options header=false && mv out social-network-sf0.003-bi-composite-projected-fk
-      - run: tools/docker-run.sh --mode bi --scale-factor 0.003                                 --format-options header=false && mv out social-network-sf0.003-bi-composite-merged-fk
-      # - run: tools/docker-run.sh --mode interactive --scale-factor 0.003 --explode-edges --explode-attrs --format-options header=false && mv out social-network-sf0.003-singular-projected-fk-no-header
-      # - run: tools/docker-run.sh --mode interactive --scale-factor 0.003                 --explode-attrs --format-options header=false && mv out social-network-sf0.003-singular-merged-fk-no-header
-      # - run: tools/docker-run.sh --mode interactive --scale-factor 0.003 --explode-edges                 --format-options header=false && mv out social-network-sf0.003-composite-projected-fk-no-header
-      # - run: tools/docker-run.sh --mode interactive --scale-factor 0.003                                 --format-options header=false && mv out social-network-sf0.003-composite-merged-fk-no-header
-      - run: tools/docker-run.sh --mode bi --scale-factor 0.003 --explode-edges --explode-attrs --format-options header=false && mv out social-network-sf0.003-bi-singular-projected-fk-no-header
-      - run: tools/docker-run.sh --mode bi --scale-factor 0.003                 --explode-attrs --format-options header=false && mv out social-network-sf0.003-bi-singular-merged-fk-no-header
-      - run: tools/docker-run.sh --mode bi --scale-factor 0.003 --explode-edges                 --format-options header=false && mv out social-network-sf0.003-bi-composite-projected-fk-no-header
-      - run: tools/docker-run.sh --mode bi --scale-factor 0.003                                 --format-options header=false && mv out social-network-sf0.003-bi-composite-merged-fk-no-header
+      - run: tools/docker-run.sh --mode bi --scale-factor 0.003 --explode-edges --explode-attrs && mv out social-network-sf0.003-bi-singular-projected-fk
+      - run: tools/docker-run.sh --mode bi --scale-factor 0.003                 --explode-attrs && mv out social-network-sf0.003-bi-singular-merged-fk
+      - run: tools/docker-run.sh --mode bi --scale-factor 0.003 --explode-edges                 && mv out social-network-sf0.003-bi-composite-projected-fk
+      - run: tools/docker-run.sh --mode bi --scale-factor 0.003                                 && mv out social-network-sf0.003-bi-composite-merged-fk
+      - run: tools/docker-run.sh --mode bi --scale-factor 0.003 --format-options header=true && mv out social-network-sf0.003-bi-composite-merged-fk-postgres
+      - run: tools/docker-run.sh --mode bi --scale-factor 0.003 --explode-edges --format-options header=false,quoteAll=true && mv out social-network-sf0.003-bi-composite-projected-fk-neo4j
       - run: |
           # deploy CircleCI configuration to provide the 'filters' instructions (and prevent failed builds on the gh-pages branch)
           mv .circleci dist/
