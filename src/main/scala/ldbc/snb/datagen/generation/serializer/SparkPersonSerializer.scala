@@ -45,8 +45,8 @@ case class PersonEntry(
               `locationIP`: String,
               `browserUsed`: String,
               `place`: Integer,
-              `language`: String,
-              `email`: String
+              `language`: Seq[String],
+              `email`: Seq[String]
             )
 
 case class PersonHasInterestTagEntry(
@@ -269,11 +269,11 @@ object SparkPersonSerializer {
 
   import scala.collection.JavaConverters._
 
-  private def buildLanguages(languages: util.List[Integer]): String = {
-    languages.asScala.mkString(";")
+  private def buildLanguages(languages: util.List[Integer]): Seq[String] = {
+    languages.asScala.map(x => Dictionaries.languages.getLanguageName(x))
   }
 
-  private def buildEmail(emails: util.List[String]): String = Joiner.on(";").join(emails)
+  private def buildEmail(emails: util.List[String]): Seq[String] = emails.asScala
 
   private[this] def getTaskAttemptContext(conf: Configuration,
                                           tc: TaskContext,
