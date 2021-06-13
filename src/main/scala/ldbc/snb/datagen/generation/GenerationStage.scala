@@ -47,17 +47,17 @@ object GenerationStage extends SparkApp with Logging {
 
     val merged = SparkKnowsMerger(uniKnows, interestKnows, randomKnows).cache()
 
-    SparkUI.job(simpleNameOf[SparkActivitySerializer.type], "serialize person activities") {
-      SparkActivitySerializer(merged, randomRanker, config, Some(numPartitions), oversizeFactor)
-    }
+//    SparkUI.job(simpleNameOf[SparkActivitySerializer.type], "serialize person activities") {
+//      SparkActivitySerializer(merged, randomRanker, config, Some(numPartitions), oversizeFactor)
+//    }
 
     SparkUI.job(simpleNameOf[SparkPersonSerializer.type ], "serialize persons") {
       SparkPersonSerializer(merged, config, Some(numPartitions), oversizeFactor)
     }
 
-    SparkUI.job(simpleNameOf[SparkStaticGraphSerializer.type], "serialize static graph") {
-      SparkStaticGraphSerializer(config, Some(numPartitions))
-    }
+//    SparkUI.job(simpleNameOf[SparkStaticGraphSerializer.type], "serialize static graph") {
+//      SparkStaticGraphSerializer(config, Some(numPartitions))
+//    }
   }
 
   def openPropFileStream(uri: URI) = {
