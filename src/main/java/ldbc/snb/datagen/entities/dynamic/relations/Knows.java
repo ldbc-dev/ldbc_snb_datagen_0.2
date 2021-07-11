@@ -39,6 +39,7 @@ import ldbc.snb.datagen.DatagenParams;
 import ldbc.snb.datagen.dictionary.Dictionaries;
 import ldbc.snb.datagen.entities.dynamic.person.Person;
 import ldbc.snb.datagen.entities.dynamic.person.PersonSummary;
+import ldbc.snb.datagen.util.RNG;
 import org.apache.hadoop.io.Writable;
 
 import java.io.DataInput;
@@ -179,7 +180,7 @@ public final class Knows implements Writable, Comparable<Knows>, Serializable {
 
     }
 
-    public static boolean createKnow(Random dateRandom, Random deletionRandom, Person personA, Person personB, Person.PersonSimilarity personSimilarity, Boolean ignore) {
+    public static boolean createKnow(RNG dateRandom, RNG deletionRandom, Person personA, Person personB, Person.PersonSimilarity personSimilarity, Boolean ignore) {
 
         if (personA.getCreationDate() + DatagenParams.delta > personB.getDeletionDate() ||
                 personB.getCreationDate() + DatagenParams.delta > personA.getDeletionDate()) {
@@ -213,7 +214,7 @@ public final class Knows implements Writable, Comparable<Knows>, Serializable {
     }
 
     //     TODO: used for uni and interest dimension in knows gen
-    public static void createKnow(Random dateRandom, Random deletionRandom, Person personA, Person personB, Person.PersonSimilarity personSimilarity) {
+    public static void createKnow(RNG dateRandom, RNG deletionRandom, Person personA, Person personB, Person.PersonSimilarity personSimilarity) {
 
         if (personA.getCreationDate() + DatagenParams.delta > personB.getDeletionDate() ||
                 personB.getCreationDate() + DatagenParams.delta > personA.getDeletionDate()) {

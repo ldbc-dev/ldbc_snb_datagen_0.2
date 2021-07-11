@@ -35,6 +35,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.*/
 package ldbc.snb.datagen.generator.tools;
 
+import ldbc.snb.datagen.util.RNG;
 import umontreal.iro.lecuyer.probdist.PowerDist;
 
 import java.util.Random;
@@ -50,11 +51,11 @@ public class PowerDistribution {
         return powerDist;
     }
 
-    public int getValue(Random random) {
+    public int getValue(RNG random) {
         return (int) powerDist.inverseF(random.nextDouble());
     }
 
-    public double getDouble(Random random) {
+    public double getDouble(RNG random) {
         return powerDist.inverseF(random.nextDouble());
     }
 

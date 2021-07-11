@@ -36,6 +36,7 @@
 package ldbc.snb.datagen.dictionary;
 
 import ldbc.snb.datagen.DatagenParams;
+import ldbc.snb.datagen.util.RNG;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -97,7 +98,7 @@ public class TagTextDictionary {
      * @return
      * @brief Gets a random tag text size.
      */
-    public int getRandomTextSize(Random randomTextSize, Random randomReducedText, int minSize, int maxSize) {
+    public int getRandomTextSize(RNG randomTextSize, RNG randomReducedText, int minSize, int maxSize) {
         if (randomReducedText.nextDouble() > reducedTextRatio) {
             return randomTextSize.nextInt(maxSize - minSize) + minSize;
         }
@@ -111,7 +112,7 @@ public class TagTextDictionary {
      * @return
      * @brief Gets a random large text size.
      */
-    public int getRandomLargeTextSize(Random randomTextSize, int minSize, int maxSize) {
+    public int getRandomLargeTextSize(RNG randomTextSize, int minSize, int maxSize) {
         return randomTextSize.nextInt(maxSize - minSize) + minSize;
     }
 
@@ -122,7 +123,7 @@ public class TagTextDictionary {
      * @return The final text.
      * @brief Generates a text given a set of tags.
      */
-    public String generateText(Random randomTextSize, TreeSet<Integer> tags, int textSize) {
+    public String generateText(RNG randomTextSize, TreeSet<Integer> tags, int textSize) {
         StringBuilder returnString = new StringBuilder(1024);
         returnString.setLength(0);
         int textSizePerTag = (int) Math.ceil(textSize / (double) tags.size());

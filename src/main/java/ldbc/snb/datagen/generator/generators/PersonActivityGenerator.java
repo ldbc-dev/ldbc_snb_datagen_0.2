@@ -50,10 +50,7 @@ import ldbc.snb.datagen.generator.generators.postgenerators.FlashmobPostGenerato
 import ldbc.snb.datagen.generator.generators.postgenerators.UniformPostGenerator;
 import ldbc.snb.datagen.generator.generators.textgenerators.LdbcSnbTextGenerator;
 import ldbc.snb.datagen.generator.generators.textgenerators.TextGenerator;
-import ldbc.snb.datagen.util.FactorTable;
-import ldbc.snb.datagen.util.Iterators;
-import ldbc.snb.datagen.util.RandomGeneratorFarm;
-import ldbc.snb.datagen.util.Streams;
+import ldbc.snb.datagen.util.*;
 import org.javatuples.Pair;
 import org.javatuples.Triplet;
 
@@ -223,7 +220,7 @@ public class PersonActivityGenerator {
     }
 
     private int numPostsPerGroup(RandomGeneratorFarm randomFarm, Forum forum, int maxPostsPerMonth, int maxMembersPerForum) {
-        Random random = randomFarm.get(RandomGeneratorFarm.Aspect.NUM_POST);
+        RNG random = randomFarm.get(RandomGeneratorFarm.Aspect.NUM_POST);
         int numOfMonths = (int) Dictionaries.dates.numberOfMonths(forum.getCreationDate());
         int numberPost;
         if (numOfMonths == 0) {

@@ -72,7 +72,7 @@ public class PersonDeleteDistribution {
             throw new RuntimeException(e);
         }
     }
-    public boolean isDeleted(Random random, long maxKnows) {
+    public boolean isDeleted(RNG random, long maxKnows) {
         return random.nextDouble() < distribution[(int) maxKnows];
 
     }

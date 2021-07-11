@@ -38,6 +38,7 @@ package ldbc.snb.datagen.dictionary;
 import ldbc.snb.datagen.entities.statictype.tag.FlashMobTag;
 import ldbc.snb.datagen.generator.generators.DateGenerator;
 import ldbc.snb.datagen.generator.tools.PowerDistribution;
+import ldbc.snb.datagen.util.RNG;
 
 import java.util.*;
 
@@ -106,7 +107,7 @@ public class FlashmobTagDictionary {
      * Initializes the flashmob tag dictionary, by selecting a set of tags as flashmob tags.
      */
     private void initialize() {
-        Random random = new Random(0);
+        RNG random = new RNG(0);
         int numFlashmobTags = (int) (flashmobTagsPerMonth * dateGen.numberOfMonths(dateGen.getSimulationStart()));
         Integer[] tags = tagDictionary.getRandomTags(random, numFlashmobTags);
         flashmobTagCumDist = new FlashMobTag[numFlashmobTags];
@@ -155,7 +156,7 @@ public class FlashmobTagDictionary {
      * @param index The index of the flashmob tag to select.
      * @return true if the flashmob tag is selected. false otherwise.
      */
-    private boolean selectFlashmobTag(Random rand, int index) {
+    private boolean selectFlashmobTag(RNG rand, int index) {
         return rand.nextDouble() > (1 - probRandomPerLevel * flashmobTagCumDist[index].level);
     }
 
@@ -167,7 +168,7 @@ public class FlashmobTagDictionary {
      * @param fromDate The date from which to consider the flashmob tags.
      * @return A vector containing the selected flashmob tags.
      */
-    public List<FlashMobTag> generateFlashmobTags(Random rand, TreeSet<Integer> interests, long fromDate) {
+    public List<FlashMobTag> generateFlashmobTags(RNG rand, TreeSet<Integer> interests, long fromDate) {
         List<FlashMobTag> result = new ArrayList<>();
         for (Integer tag : interests) {
             List<FlashMobTag> instances = flashmobTags.get(tag);

@@ -7,7 +7,7 @@ import static ldbc.snb.datagen.DatagenParams.probDiffIPnotTravelSeason;
 
 public class PersonBehavior {
 
-    public static boolean changeUsualCountry(Random random, long date) {
+    public static boolean changeUsualCountry(RNG random, long date) {
         double diffIpForTravelersProb = random.nextDouble();
         boolean isTravelSeason = DateUtils.isTravelSeason(date);
         return (isTravelSeason && diffIpForTravelersProb < probDiffIPinTravelSeason) ||

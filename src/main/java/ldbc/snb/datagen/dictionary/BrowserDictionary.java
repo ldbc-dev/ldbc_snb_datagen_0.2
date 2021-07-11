@@ -36,6 +36,7 @@
 package ldbc.snb.datagen.dictionary;
 
 import ldbc.snb.datagen.DatagenParams;
+import ldbc.snb.datagen.util.RNG;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -81,7 +82,7 @@ public class BrowserDictionary {
         return browsers_.get(id);
     }
 
-    public int getRandomBrowserId(Random random) {
+    public int getRandomBrowserId(RNG random) {
         double prob = random.nextDouble();
         int minIdx = 0;
         int maxIdx = (byte) ((prob < cumulativeDistribution_.get(minIdx)) ? minIdx : cumulativeDistribution_
@@ -98,7 +99,7 @@ public class BrowserDictionary {
         return maxIdx;
     }
 
-    public int getPostBrowserId(Random randomDiffBrowser, Random randomBrowser, int personBrowserId) {
+    public int getPostBrowserId(RNG randomDiffBrowser, RNG randomBrowser, int personBrowserId) {
         double prob = randomDiffBrowser.nextDouble();
         return (prob < probAnotherBrowser_) ? getRandomBrowserId(randomBrowser) : personBrowserId;
     }

@@ -39,6 +39,7 @@ import ldbc.snb.datagen.DatagenParams;
 import ldbc.snb.datagen.dictionary.Dictionaries;
 import ldbc.snb.datagen.dictionary.TagDictionary;
 import ldbc.snb.datagen.entities.dynamic.person.PersonSummary;
+import ldbc.snb.datagen.util.RNG;
 
 import java.util.Properties;
 import java.util.Random;
@@ -46,7 +47,7 @@ import java.util.TreeSet;
 
 public class LdbcSnbTextGenerator extends TextGenerator {
 
-    public LdbcSnbTextGenerator(Random random, TagDictionary tagDic) {
+    public LdbcSnbTextGenerator(RNG random, TagDictionary tagDic) {
         super(random, tagDic);
     }
 

@@ -36,6 +36,7 @@
 package ldbc.snb.datagen.dictionary;
 
 import ldbc.snb.datagen.DatagenParams;
+import ldbc.snb.datagen.util.RNG;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -93,7 +94,7 @@ public class EmailDictionary {
     /**
      * Gets a random email domain based on its popularity.
      */
-    public String getRandomEmail(Random randomTop, Random randomEmail) {
+    public String getRandomEmail(RNG randomTop, RNG randomEmail) {
         int minIdx = 0;
         int maxIdx = cumulativeDistribution.size() - 1;
         double prob = randomTop.nextDouble();

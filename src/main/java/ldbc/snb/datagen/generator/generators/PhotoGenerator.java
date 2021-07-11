@@ -41,10 +41,7 @@ import ldbc.snb.datagen.entities.dynamic.Forum;
 import ldbc.snb.datagen.entities.dynamic.messages.Photo;
 import ldbc.snb.datagen.entities.dynamic.person.IP;
 import ldbc.snb.datagen.entities.dynamic.relations.Like;
-import ldbc.snb.datagen.util.Iterators;
-import ldbc.snb.datagen.util.PersonBehavior;
-import ldbc.snb.datagen.util.RandomGeneratorFarm;
-import ldbc.snb.datagen.util.Streams;
+import ldbc.snb.datagen.util.*;
 import ldbc.snb.datagen.vocabulary.SN;
 import org.javatuples.Pair;
 
@@ -86,8 +83,8 @@ class PhotoGenerator {
                 return Iterators.ForIterator.BREAK();
             }
 
-            Random randomDate = randomFarm.get(RandomGeneratorFarm.Aspect.DATE);
-            Random randomDeletePost = randomFarm.get(RandomGeneratorFarm.Aspect.DELETION_POST);
+            RNG randomDate = randomFarm.get(RandomGeneratorFarm.Aspect.DATE);
+            RNG randomDeletePost = randomFarm.get(RandomGeneratorFarm.Aspect.DELETION_POST);
 
             long deletionDate;
             boolean isExplicitlyDeleted;
@@ -103,7 +100,7 @@ class PhotoGenerator {
 
             int country = album.getModerator().getCountry();
             IP ip = album.getModerator().getIpAddress();
-            Random random = randomFarm.get(RandomGeneratorFarm.Aspect.DIFF_IP_FOR_TRAVELER);
+            RNG random = randomFarm.get(RandomGeneratorFarm.Aspect.DIFF_IP_FOR_TRAVELER);
 
 
             if (PersonBehavior.changeUsualCountry(random, creationDate)) {

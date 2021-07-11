@@ -44,6 +44,7 @@ import ldbc.snb.datagen.entities.dynamic.relations.Like;
 import ldbc.snb.datagen.entities.dynamic.relations.Like.LikeType;
 import ldbc.snb.datagen.generator.tools.PowerDistribution;
 import ldbc.snb.datagen.util.Iterators;
+import ldbc.snb.datagen.util.RNG;
 import ldbc.snb.datagen.util.Streams;
 
 import java.util.Arrays;
@@ -62,7 +63,7 @@ public class LikeGenerator {
         this.like = new Like();
     }
 
-    public Stream<Like> generateLikes(Random randomDeleteLike, Random random, final Forum forum, final Message message, LikeType type) {
+    public Stream<Like> generateLikes(RNG randomDeleteLike, RNG random, final Forum forum, final Message message, LikeType type) {
         final int numMembers = forum.getMemberships().size();
         final int numLikes = Math.min(likesGenerator.getValue(random), numMembers);
         List<ForumMembership> memberships = forum.getMemberships();

@@ -36,6 +36,7 @@
 package ldbc.snb.datagen.dictionary;
 
 import ldbc.snb.datagen.DatagenParams;
+import ldbc.snb.datagen.util.RNG;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -138,12 +139,12 @@ public class LanguageDictionary {
     }
 
     /**
-     * @param random  Random number generator.
+     * @param random  RNG number generator.
      * @param country The country to retrieve the languages from.
      * @return The set of randomly choosen languages.
      * @breif Gets a set of random languages from a country.
      */
-    public List<Integer> getLanguages(Random random, int country) {
+    public List<Integer> getLanguages(RNG random, int country) {
         List<Integer> langSet = new ArrayList<>();
         if (officalLanguagesByCountry.get(country).size() != 0) {
             int id = random.nextInt(officalLanguagesByCountry.get(country).size());
@@ -166,7 +167,7 @@ public class LanguageDictionary {
      * @return The language.
      * @brief Gets a random language.
      */
-    public int getInternationlLanguage(Random random) {
+    public int getInternationlLanguage(RNG random) {
         Integer languageId = -1;
         if (random.nextDouble() < probEnglish) {
             languageId = languages.indexOf(ISO_ENGLISH_CODE);

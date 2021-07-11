@@ -37,6 +37,7 @@ package ldbc.snb.datagen.dictionary;
 
 import ldbc.snb.datagen.DatagenParams;
 import ldbc.snb.datagen.entities.statictype.place.PopularPlace;
+import ldbc.snb.datagen.util.RNG;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -113,7 +114,7 @@ public class PopularPlacesDictionary {
      * @return The popular place identifier.
      * @brief Gets the popular places of a country.
      */
-    public short getPopularPlace(Random random, int countryId) {
+    public short getPopularPlace(RNG random, int countryId) {
         if (popularPlacesByCountry.get(countryId).size() == 0) {
             return -1;
         }

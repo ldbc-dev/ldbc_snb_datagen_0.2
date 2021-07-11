@@ -37,6 +37,7 @@ package ldbc.snb.datagen.generator.generators.textgenerators;
 
 import ldbc.snb.datagen.dictionary.TagDictionary;
 import ldbc.snb.datagen.entities.dynamic.person.PersonSummary;
+import ldbc.snb.datagen.util.RNG;
 
 import java.util.Properties;
 import java.util.Random;
@@ -44,14 +45,14 @@ import java.util.TreeSet;
 
 public abstract class TextGenerator {
     protected TagDictionary tagDic;
-    protected Random random;
+    protected RNG random;
 
 
     /**
      *  The probability to retrieve an small text.
      */
 
-    public TextGenerator(Random random, TagDictionary tagDic) {
+    public TextGenerator(RNG random, TagDictionary tagDic) {
         this.tagDic = tagDic;
         this.random = random;
     }

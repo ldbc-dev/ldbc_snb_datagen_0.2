@@ -43,6 +43,7 @@ import ldbc.snb.datagen.entities.dynamic.person.Person;
 import ldbc.snb.datagen.entities.dynamic.person.PersonSummary;
 import ldbc.snb.datagen.entities.dynamic.relations.ForumMembership;
 import ldbc.snb.datagen.entities.dynamic.relations.Knows;
+import ldbc.snb.datagen.util.RNG;
 import ldbc.snb.datagen.util.RandomGeneratorFarm;
 import ldbc.snb.datagen.util.StringUtils;
 import ldbc.snb.datagen.vocabulary.SN;
@@ -182,7 +183,7 @@ public class ForumGenerator {
 
                     if (maxCreationDate - minCreationDate > 0) {
 
-                        Random random = randomFarm.get(RandomGeneratorFarm.Aspect.MEMBERSHIP_INDEX);
+                        RNG random = randomFarm.get(RandomGeneratorFarm.Aspect.MEMBERSHIP_INDEX);
                         long hasMemberCreationDate = Dictionaries.dates.randomDate(random, minCreationDate, maxCreationDate);
 
                         long hasMemberDeletionDate;
@@ -216,7 +217,7 @@ public class ForumGenerator {
 
                     if (maxHasMemberCreationDate - minHasMemberCreationDate > 0) {
 
-                        Random random = randomFarm.get(RandomGeneratorFarm.Aspect.MEMBERSHIP_INDEX);
+                        RNG random = randomFarm.get(RandomGeneratorFarm.Aspect.MEMBERSHIP_INDEX);
                         long hasMemberCreationDate = Dictionaries.dates.randomDate(random, minHasMemberCreationDate, maxHasMemberCreationDate);
 
                         long hasMemberDeletionDate;

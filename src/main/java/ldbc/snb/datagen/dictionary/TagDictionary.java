@@ -36,6 +36,7 @@
 package ldbc.snb.datagen.dictionary;
 
 import ldbc.snb.datagen.DatagenParams;
+import ldbc.snb.datagen.util.RNG;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -233,7 +234,7 @@ public class TagDictionary {
      * @return The random tag id.
      * @brief Gets a random tag by country.
      */
-    public Integer getaTagByCountry(Random randomTagOtherCountry, Random randomTagCountryProb, int countryId_) {
+    public Integer getaTagByCountry(RNG randomTagOtherCountry, RNG randomTagCountryProb, int countryId_) {
         int countryId = countryId_;
         if (tagsByCountry.get(countryId).size() == 0 || randomTagOtherCountry.nextDouble() > tagCountryCorrProb) {
             do {
@@ -272,7 +273,7 @@ public class TagDictionary {
      * @return The array of random tags.
      * @brief Gets a number of random tags.
      */
-    public Integer[] getRandomTags(Random random, int num) {
+    public Integer[] getRandomTags(RNG random, int num) {
         Integer[] result = new Integer[num];
         for (int i = 0; i < num; ) {
             int randomCountry = random.nextInt(tagsByCountry.size());

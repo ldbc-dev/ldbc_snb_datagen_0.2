@@ -45,10 +45,7 @@ import ldbc.snb.datagen.entities.dynamic.person.IP;
 import ldbc.snb.datagen.entities.dynamic.relations.ForumMembership;
 import ldbc.snb.datagen.entities.dynamic.relations.Like;
 import ldbc.snb.datagen.generator.generators.textgenerators.TextGenerator;
-import ldbc.snb.datagen.util.Iterators;
-import ldbc.snb.datagen.util.PersonBehavior;
-import ldbc.snb.datagen.util.RandomGeneratorFarm;
-import ldbc.snb.datagen.util.Streams;
+import ldbc.snb.datagen.util.*;
 import ldbc.snb.datagen.vocabulary.SN;
 import org.javatuples.Pair;
 
@@ -153,7 +150,7 @@ public class CommentGenerator {
 
             int country = membership.getPerson().getCountry();
             IP ip = membership.getPerson().getIpAddress();
-            Random random = randomFarm.get(RandomGeneratorFarm.Aspect.DIFF_IP_FOR_TRAVELER);
+            RNG random = randomFarm.get(RandomGeneratorFarm.Aspect.DIFF_IP_FOR_TRAVELER);
             if (PersonBehavior.changeUsualCountry(random, creationDate)) {
                 random = randomFarm.get(RandomGeneratorFarm.Aspect.COUNTRY);
                 country = Dictionaries.places.getRandomCountryUniform(random);

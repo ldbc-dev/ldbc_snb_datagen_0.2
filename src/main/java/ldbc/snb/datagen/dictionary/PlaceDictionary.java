@@ -37,6 +37,7 @@ package ldbc.snb.datagen.dictionary;
 
 import ldbc.snb.datagen.DatagenParams;
 import ldbc.snb.datagen.entities.statictype.place.Place;
+import ldbc.snb.datagen.util.RNG;
 import ldbc.snb.datagen.util.ZOrder;
 
 import java.io.BufferedReader;
@@ -177,7 +178,7 @@ public class PlaceDictionary {
      * @return The city identifier.
      * Gets a random city from a country.
      */
-    public int getRandomCity(Random random, int countryId) {
+    public int getRandomCity(RNG random, int countryId) {
         if (!citiesByCountry.containsKey(countryId)) {
             System.out.println("Invalid countryId");
             return INVALID_LOCATION;
@@ -197,7 +198,7 @@ public class PlaceDictionary {
      * @param random The random  number generator.
      * @return The country identifier.
      */
-    public int getRandomCountryUniform(Random random) {
+    public int getRandomCountryUniform(RNG random) {
         int randomNumber = random.nextInt(countries.size());
         return countries.get(randomNumber);
     }
@@ -337,7 +338,7 @@ public class PlaceDictionary {
      * @return The country for the person.
      * Gets a country for a person.
      */
-    public int getCountryForPerson(Random random) {
+    public int getCountryForPerson(RNG random) {
         int position = Arrays.binarySearch(cumulativeDistribution, random.nextFloat());
         if (position >= 0) {
             return position;

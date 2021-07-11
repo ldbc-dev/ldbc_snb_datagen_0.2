@@ -36,6 +36,7 @@
 package ldbc.snb.datagen.dictionary;
 
 import ldbc.snb.datagen.DatagenParams;
+import ldbc.snb.datagen.util.RNG;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -101,7 +102,7 @@ public class TagMatrix {
      * @return The related tag identifier.
      * @brief Gets a random related tag.
      */
-    public Integer getRandomRelated(Random randomTag, int tag) {
+    public Integer getRandomRelated(RNG randomTag, int tag) {
         int tagId = tag;
         if (relatedTags.get(tagId) == null) {
             tagId = nonZeroTags.get(randomTag.nextInt(nonZeroTags.size()));
@@ -117,7 +118,7 @@ public class TagMatrix {
      * @return The set of related tags.
      * @brief Get a set of related tags.
      */
-    public TreeSet<Integer> getSetofTags(Random randomTopic, Random randomTag, int popularTagId, int numTags) {
+    public TreeSet<Integer> getSetofTags(RNG randomTopic, RNG randomTag, int popularTagId, int numTags) {
         TreeSet<Integer> resultTags = new TreeSet<>();
         resultTags.add(popularTagId);
         while (resultTags.size() < numTags) {

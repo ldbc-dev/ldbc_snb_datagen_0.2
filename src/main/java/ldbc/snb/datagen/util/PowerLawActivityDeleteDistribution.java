@@ -42,7 +42,7 @@ public class PowerLawActivityDeleteDistribution {
         }
     }
 
-    public double nextDouble(double prob, Random random) {
+    public double nextDouble(double prob, RNG random) {
 
         double draw = 0;
         for (int i = 0; i < distribution.length; i++) {

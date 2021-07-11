@@ -41,7 +41,7 @@ import java.util.Random;
 public class RandomGeneratorFarm {
 
     private int numRandomGenerators;
-    private Random[] randomGenerators;
+    private RNG[] randomGenerators;
 
     public enum Aspect {
         DATE,
@@ -120,18 +120,18 @@ public class RandomGeneratorFarm {
 
     public RandomGeneratorFarm() {
         numRandomGenerators = Aspect.values().length;
-        randomGenerators = new Random[numRandomGenerators];
+        randomGenerators = new RNG[numRandomGenerators];
         for (int i = 0; i < numRandomGenerators; ++i) {
-            randomGenerators[i] = new Random();
+            randomGenerators[i] = new RNG(0L);
         }
     }
 
-    public Random get(Aspect aspect) {
+    public RNG get(Aspect aspect) {
         return randomGenerators[aspect.ordinal()];
     }
 
     public void resetRandomGenerators(long seed) {
-        Random seedRandom = new Random(53223436L + 1234567 * seed);
+        RNG seedRandom = new RNG(53223436L + 1234567 * seed);
         for (int i = 0; i < numRandomGenerators; i++) {
             randomGenerators[i].setSeed(seedRandom.nextLong());
         }

@@ -42,6 +42,7 @@ import ldbc.snb.datagen.entities.dynamic.relations.ForumMembership;
 import ldbc.snb.datagen.generator.generators.CommentGenerator;
 import ldbc.snb.datagen.generator.generators.LikeGenerator;
 import ldbc.snb.datagen.generator.generators.textgenerators.TextGenerator;
+import ldbc.snb.datagen.util.RNG;
 
 import java.util.Random;
 
@@ -53,7 +54,7 @@ public class UniformPostGenerator extends PostGenerator {
     }
 
     @Override
-    protected PostCore generatePostInfo(Random randomDeletePost, Random randomTag, Random randomDate, final Forum forum, final ForumMembership membership, int numComments) {
+    protected PostCore generatePostInfo(RNG randomDeletePost, RNG randomTag, RNG randomDate, final Forum forum, final ForumMembership membership, int numComments) {
         PostCore postCore = new PostCore();
 
         // add creation date

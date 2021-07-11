@@ -36,6 +36,7 @@
 package ldbc.snb.datagen.dictionary;
 
 import ldbc.snb.datagen.DatagenParams;
+import ldbc.snb.datagen.util.RNG;
 import umontreal.iro.lecuyer.probdist.GeometricDist;
 
 import java.io.BufferedReader;
@@ -151,7 +152,7 @@ public class NamesDictionary {
      * Else, from 0 to (limitRank - 1) will be distributed according to
      * geometric distribution, out of this scope will be distribution
      */
-    private int getGeoDistRandomIdx(Random random, int numNames) {
+    private int getGeoDistRandomIdx(RNG random, int numNames) {
         int nameIdx = -1;
         double prob = random.nextDouble();
         int rank = geoDist.inverseFInt(prob);
@@ -173,12 +174,12 @@ public class NamesDictionary {
         return nameIdx;
     }
 
-    public String getRandomSurname(Random random, int locationId) {
+    public String getRandomSurname(RNG random, int locationId) {
         int surNameIdx = getGeoDistRandomIdx(random, surNamesByLocations.get(locationId).size());
         return surNamesByLocations.get(locationId).get(surNameIdx);
     }
 
-    public String getRandomGivenName(Random random, int locationId, boolean isMale, int birthYear) {
+    public String getRandomGivenName(RNG random, int locationId, boolean isMale, int birthYear) {
         String name = "";
         int period = (birthYear < 1985) ? 0 : 1;
         Vector<Map<Integer, Vector<String>>> target = (isMale) ? givenNamesByLocationsMale : givenNamesByLocationsFemale;

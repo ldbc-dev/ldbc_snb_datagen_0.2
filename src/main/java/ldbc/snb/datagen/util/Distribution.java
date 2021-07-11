@@ -88,7 +88,7 @@ public class Distribution {
         return midPoint;
     }
 
-    public double nextDouble(Random random) {
+    public double nextDouble(RNG random) {
         return (double) binarySearch(random.nextDouble()) / (double) distribution.length;
     }
 }

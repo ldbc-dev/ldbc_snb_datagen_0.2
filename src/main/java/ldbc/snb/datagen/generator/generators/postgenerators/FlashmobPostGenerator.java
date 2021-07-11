@@ -44,6 +44,7 @@ import ldbc.snb.datagen.generator.generators.CommentGenerator;
 import ldbc.snb.datagen.generator.generators.LikeGenerator;
 import ldbc.snb.datagen.generator.generators.textgenerators.TextGenerator;
 import ldbc.snb.datagen.util.Distribution;
+import ldbc.snb.datagen.util.RNG;
 
 import java.util.*;
 
@@ -65,13 +66,13 @@ public class FlashmobPostGenerator extends PostGenerator {
     }
 
     /**
-     * Selects a random tag from a given index.
-     * @param randomFlashmobTag random number generator
+     * Selects a RNG tag from a given index.
+     * @param randomFlashmobTag RNG number generator
      * @param tags The array of sorted tags to select from.
      * @param index The first tag to consider.
-     * @return The index of a random tag.
+     * @return The index of a RNG tag.
      */
-    private int selectRandomTag(Random randomFlashmobTag, FlashMobTag[] tags, int index) {
+    private int selectRandomTag(RNG randomFlashmobTag, FlashMobTag[] tags, int index) {
         int upperBound = tags.length - 1;
         int lowerBound = index;
         double prob = randomFlashmobTag
@@ -115,10 +116,10 @@ public class FlashmobPostGenerator extends PostGenerator {
 
     /**
      *
-     * @param randomNumPost random number generator
+     * @param randomNumPost RNG number generator
      * @param forum forum
      */
-    private void populateForumFlashmobTags(Random randomNumPost, Forum forum) {
+    private void populateForumFlashmobTags(RNG randomNumPost, Forum forum) {
 
         TreeSet<Integer> tags = new TreeSet<>(); // empty set
         List<FlashMobTag> temp = Dictionaries.flashmobs.generateFlashmobTags(randomNumPost, tags, forum.getCreationDate());
@@ -145,13 +146,13 @@ public class FlashmobPostGenerator extends PostGenerator {
 
     /**
      * Generate flashmob post information
-     * @param randomTag random number generator
-     * @param randomDate random number generator
+     * @param randomTag RNG number generator
+     * @param randomDate RNG number generator
      * @param forum forum
      * @param membership forum member
      * @return core information for a post during a flashmob
      */
-    protected PostCore generatePostInfo(Random randomDeletePost, Random randomTag, Random randomDate, final Forum forum, final ForumMembership membership, int numComments) {
+    protected PostCore generatePostInfo(RNG randomDeletePost, RNG randomTag, RNG randomDate, final Forum forum, final ForumMembership membership, int numComments) {
 
         if (currentForum != forum.getId()) {
             populateForumFlashmobTags(randomTag, forum);

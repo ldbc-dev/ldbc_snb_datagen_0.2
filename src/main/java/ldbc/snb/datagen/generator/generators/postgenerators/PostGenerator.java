@@ -47,10 +47,7 @@ import ldbc.snb.datagen.entities.dynamic.relations.Like;
 import ldbc.snb.datagen.generator.generators.CommentGenerator;
 import ldbc.snb.datagen.generator.generators.LikeGenerator;
 import ldbc.snb.datagen.generator.generators.textgenerators.TextGenerator;
-import ldbc.snb.datagen.util.Iterators;
-import ldbc.snb.datagen.util.PersonBehavior;
-import ldbc.snb.datagen.util.RandomGeneratorFarm;
-import ldbc.snb.datagen.util.Streams;
+import ldbc.snb.datagen.util.*;
 import ldbc.snb.datagen.vocabulary.SN;
 import org.javatuples.Pair;
 import org.javatuples.Triplet;
@@ -108,7 +105,7 @@ abstract public class PostGenerator {
                 String content = this.generator.generateText(member.getPerson(), postCore.getTags(), properties);
                 int country = member.getPerson().getCountry();
                 IP ip = member.getPerson().getIpAddress();
-                Random random = randomFarm.get(RandomGeneratorFarm.Aspect.DIFF_IP_FOR_TRAVELER);
+                RNG random = randomFarm.get(RandomGeneratorFarm.Aspect.DIFF_IP_FOR_TRAVELER);
                 if (PersonBehavior.changeUsualCountry(random, postCore.getCreationDate())) {
                     random = randomFarm.get(RandomGeneratorFarm.Aspect.COUNTRY);
                     country = Dictionaries.places.getRandomCountryUniform(random);
@@ -149,5 +146,5 @@ abstract public class PostGenerator {
             }));
         });
     }
-    protected abstract PostCore generatePostInfo(Random randomDeletePost, Random randomTag, Random randomDate, final Forum forum, final ForumMembership membership, int numComments);
+    protected abstract PostCore generatePostInfo(RNG randomDeletePost, RNG randomTag, RNG randomDate, final Forum forum, final ForumMembership membership, int numComments);
 }
