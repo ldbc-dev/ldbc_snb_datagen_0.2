@@ -17,7 +17,7 @@ object LdbcDatagen extends SparkApp {
     params: Map[String, String] = Map.empty,
     paramFile: Option[String] = None,
     outputDir: String = "out",
-    bulkloadPortion: Double = 0.1,
+    bulkloadPortion: Double = 0.97,
     explodeEdges: Boolean = false,
     explodeAttrs: Boolean = false,
     keepImplicitDeletes: Boolean = false,

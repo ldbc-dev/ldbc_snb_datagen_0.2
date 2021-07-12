@@ -21,7 +21,7 @@ private object Interactive {
   }
 
   def calculateBulkLoadThreshold(bulkLoadPortion: Double, simulationStart: Long, simulationEnd: Long) = {
-    (simulationEnd - ((simulationEnd - simulationStart) * bulkLoadPortion).toLong)
+    (simulationEnd - ((simulationEnd - simulationStart) * (1 - bulkLoadPortion)).toLong)
   }
 
   def snapshotPart(tpe: EntityType, df: DataFrame, bulkLoadThreshold: Long, filterDeletion: Boolean) = {
