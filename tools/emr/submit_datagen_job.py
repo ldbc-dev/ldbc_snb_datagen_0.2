@@ -142,7 +142,7 @@ def submit_datagen_job(name, sf,
                     'Market': market,
                     'InstanceRole': 'CORE',
                     'InstanceType': instance_type,
-                    'InstanceCount': cluster_config['num_workers'],
+                    'InstanceCount': 2,
                 }
             ],
             **ec2_key_dict,
@@ -213,7 +213,7 @@ if __name__ == "__main__":
     parser.add_argument('name',
                         type=str,
                         help='name')
-    parser.add_argument('sf', type=int,
+    parser.add_argument('sf', type=float,
                         help='scale factor (used to calculate cluster size)')
     parser.add_argument('--use-spot',
                         action='store_true',
