@@ -63,8 +63,6 @@ public class PersonActivityExporter implements AutoCloseable {
 
     public void export(final GenActivity genActivity) {
         this.exportPostWall(genActivity.genWall);
-        genActivity.genGroups.forEach(this::exportPostWall);
-        this.exportAlbumWall(genActivity.genAlbums);
     }
 
     private void exportPostWall(final GenWall<Triplet<Post, Stream<Like>, Stream<Pair<Comment, Stream<Like>>>>> genWall) {
@@ -72,32 +70,6 @@ public class PersonActivityExporter implements AutoCloseable {
             wrapException(() -> this.exportForum(forum.getValue0()));
             Stream<ForumMembership> genForumMembership = forum.getValue1();
             genForumMembership.forEach(m -> wrapException(() -> this.exportForumMembership(m)));
-            Stream<Triplet<Post, Stream<Like>, Stream<Pair<Comment, Stream<Like>>>>> thread = forum.getValue2();
-            thread.forEach(t -> {
-                wrapException(() -> this.exportPost(t.getValue0()));
-                Stream<Like> genLike = t.getValue1();
-                genLike.forEach(l -> wrapException(() -> this.exportLike(l)));
-                Stream<Pair<Comment, Stream<Like>>> genComment = t.getValue2();
-                genComment.forEach(c -> {
-                    wrapException(() -> this.exportComment(c.getValue0()));
-                    Stream<Like> genLike1 = c.getValue1();
-                    genLike1.forEach(l -> wrapException(() -> this.exportLike(l)));
-                });
-            });
-        });
-    }
-
-    private void exportAlbumWall(final GenWall<Pair<Photo, Stream<Like>>> genAlbums) {
-        genAlbums.inner.forEach(forum -> {
-            wrapException(() -> this.exportForum(forum.getValue0()));
-            Stream<ForumMembership> genForumMembership = forum.getValue1();
-            genForumMembership.forEach(m -> wrapException(() -> this.exportForumMembership(m)));
-            Stream<Pair<Photo, Stream<Like>>> thread = forum.getValue2();
-            thread.forEach(t -> {
-                wrapException(() -> this.exportPhoto(t.getValue0()));
-                Stream<Like> genLike = t.getValue1();
-                genLike.forEach(l -> wrapException(() -> this.exportLike(l)));
-            });
         });
     }
 
@@ -105,29 +77,9 @@ public class PersonActivityExporter implements AutoCloseable {
         dynamicActivitySerializer.serialize(forum);
     }
 
-    private void exportPost(final Post post) throws IOException {
-        dynamicActivitySerializer.serialize(post);
-        factorTable.extractFactors(post);
-    }
-
-    private void exportComment(final Comment comment) throws IOException {
-        dynamicActivitySerializer.serialize(comment);
-        factorTable.extractFactors(comment);
-    }
-
-    private void exportPhoto(final Photo photo) throws IOException {
-        dynamicActivitySerializer.serialize(photo);
-        factorTable.extractFactors(photo);
-    }
-
     private void exportForumMembership(final ForumMembership member) throws IOException {
         dynamicActivitySerializer.serialize(member);
         factorTable.extractFactors(member);
-    }
-
-    private void exportLike(final Like like) throws IOException {
-        dynamicActivitySerializer.serialize(like);
-        factorTable.extractFactors(like);
     }
 
     @Override

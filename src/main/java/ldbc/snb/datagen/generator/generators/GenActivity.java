@@ -12,16 +12,9 @@ import java.util.stream.Stream;
 
 public class GenActivity {
     public final GenWall<Triplet<Post, Stream<Like>, Stream<Pair<Comment, Stream<Like>>>>> genWall;
-    public final Stream<GenWall<Triplet<Post, Stream<Like>, Stream<Pair<Comment, Stream<Like>>>>>> genGroups;
-    public final GenWall<Pair<Photo, Stream<Like>>> genAlbums;
-
     public GenActivity(
-            GenWall<Triplet<Post, Stream<Like>, Stream<Pair<Comment, Stream<Like>>>>> genWall,
-            Stream<GenWall<Triplet<Post, Stream<Like>, Stream<Pair<Comment, Stream<Like>>>>>> genGroups,
-            GenWall<Pair<Photo, Stream<Like>>> genAlbums
+            GenWall<Triplet<Post, Stream<Like>, Stream<Pair<Comment, Stream<Like>>>>> genWall
     ) {
         this.genWall = genWall;
-        this.genGroups = genGroups;
-        this.genAlbums = genAlbums;
     }
 }
