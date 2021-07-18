@@ -21,8 +21,11 @@ max_num_workers = 1000
 defaults = {
     'bucket': 'ldbc-snb-datagen-store',
     'use_spot': False,
-    'master_instance_type': 'm5d.2xlarge',
-    'instance_type': 'i3.4xlarge',
+    # 'master_instance_type': 'm5d.2xlarge',
+    # 'instance_type': 'i3.4xlarge',
+    # m1.small and i3.xlarge are not supported in us-east-2a
+    'master_instance_type': 'i3.2xlarge',
+    'instance_type': 'i3.2xlarge',
     'sf_ratio': 50.0, # ratio of SFs and machines. a ratio of 50.0 for SF100 yields 2 machines
     'platform_version': lib.platform_version,
     'version': lib.version,
