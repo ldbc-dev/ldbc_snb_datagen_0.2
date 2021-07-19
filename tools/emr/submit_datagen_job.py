@@ -216,7 +216,7 @@ if __name__ == "__main__":
     parser.add_argument('name',
                         type=str,
                         help='name')
-    parser.add_argument('sf', type=float,
+    parser.add_argument('sf', type=int,
                         help='scale factor (used to calculate cluster size)')
     parser.add_argument('--use-spot',
                         action='store_true',

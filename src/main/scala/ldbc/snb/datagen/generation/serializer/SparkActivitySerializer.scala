@@ -15,6 +15,7 @@ import org.apache.spark.sql.SparkSession
 
 import java.nio.charset.StandardCharsets
 import java.util
+import java.util.Collections
 import java.util.function.Consumer
 import scala.collection.JavaConverters._
 
@@ -68,6 +69,7 @@ object SparkActivitySerializer {
             }
             friends.write(strbuf.toString().getBytes(StandardCharsets.UTF_8))
           }
+          Collections.sort(clonedPersons)
 
           val activities = generator.generateActivityForBlock(blockId.toInt, clonedPersons)
 

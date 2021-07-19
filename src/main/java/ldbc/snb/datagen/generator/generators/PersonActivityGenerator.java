@@ -104,6 +104,7 @@ public class PersonActivityGenerator {
     private GenWall<Triplet<Post, Stream<Like>, Stream<Pair<Comment, Stream<Like>>>>> generateWall(Person person, long blockId) {
 
         // Generate wall
+        System.out.printf("Start forum id %d\n", startForumId);
         Forum wall = forumGenerator.createWall(randomFarm, startForumId++, person, blockId);
 
         // Could be null is moderator can't be added

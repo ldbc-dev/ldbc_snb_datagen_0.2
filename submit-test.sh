@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export SF=0.003
+export SF=1
 
 ./tools/build.sh
 
