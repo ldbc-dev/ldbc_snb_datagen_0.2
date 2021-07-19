@@ -68,7 +68,6 @@ import java.util.stream.Stream;
 public class PersonActivityGenerator {
 
     private long startForumId = 0;
-    private Iterator<Long> messageIdIterator;
 
     private RandomGeneratorFarm randomFarm;
     private ForumGenerator forumGenerator;
@@ -81,7 +80,6 @@ public class PersonActivityGenerator {
 
         factorTable = new FactorTable();
 
-        messageIdIterator = Iterators.numbers(0);
     }
 
     private GenActivity generateActivity(Person person, List<Person> block, long blockId) throws AssertionError {
@@ -133,7 +131,6 @@ public class PersonActivityGenerator {
     public Stream<GenActivity> generateActivityForBlock(int blockId, List<Person> block) {
         randomFarm.resetRandomGenerators(blockId);
         startForumId = 0;
-        messageIdIterator = Iterators.numbers(0);
         return block.stream().map(p -> generateActivity(p, block, blockId));
     }
 
