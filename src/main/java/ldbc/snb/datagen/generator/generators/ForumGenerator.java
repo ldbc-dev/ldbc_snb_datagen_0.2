@@ -72,8 +72,9 @@ public class ForumGenerator {
             return null;
         }
 
-        System.out.printf("Composing Forum (Wall) id for person id = %d, creationDate = %d. The blockId is %d\n", person.getAccountId(), person.getCreationDate(), blockId);
-        Forum forum = new Forum(SN.formId(SN.composeId(forumId, person.getCreationDate() + DatagenParams.delta), blockId),
+        long id = SN.formId(SN.composeId(forumId, person.getCreationDate() + DatagenParams.delta), blockId);
+        System.out.printf("Composed forum id = $% based on id for person id = %d, creationDate = %d. The blockId is %d\n", id, person.getAccountId(), person.getCreationDate(), blockId);
+        Forum forum = new Forum(id,
                 person.getCreationDate() + DatagenParams.delta,
                 person.getDeletionDate(),
                 new PersonSummary(person),
